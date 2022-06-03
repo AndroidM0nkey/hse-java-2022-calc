@@ -33,3 +33,5 @@ jobs:
       with:
         gradle-version: 7.4
         arguments: build
+    - name: Test with Gradle
+      run: gradlew test
