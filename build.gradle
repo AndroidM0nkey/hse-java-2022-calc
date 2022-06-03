@@ -24,9 +24,10 @@ repositories {
 dependencies {
     implementation files('libs/Operator.jar')
     implementation files('libs/Mathlib.jar')
+    implementation files('libs/slf4j-simple-1.7.9.jar')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation 'org.reflections:reflections:0.9.5'
+    implementation 'org.reflections:reflections:0.10.2'
 }
 
 test {

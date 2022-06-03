@@ -67,7 +67,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\JavaModCalc-1.0-SNAPSHOT.jar;%APP_HOME%\lib\Operator.jar;%APP_HOME%\lib\Mathlib.jar;%APP_HOME%\lib\reflections-0.9.5.jar;%APP_HOME%\lib\guava-r08.jar;%APP_HOME%\lib\javassist-3.12.1.GA.jar;%APP_HOME%\lib\slf4j-api-1.6.1.jar;%APP_HOME%\lib\dom4j-1.6.1.jar;%APP_HOME%\lib\xml-apis-1.0.b2.jar
+set CLASSPATH=%APP_HOME%\lib\JavaModCalc-1.0-SNAPSHOT.jar;%APP_HOME%\lib\Operator.jar;%APP_HOME%\lib\Mathlib.jar;%APP_HOME%\lib\slf4j-simple-1.7.9.jar;%APP_HOME%\lib\reflections-0.10.2.jar;%APP_HOME%\lib\javassist-3.28.0-GA.jar;%APP_HOME%\lib\jsr305-3.0.2.jar;%APP_HOME%\lib\slf4j-api-1.7.32.jar
 
 
 @rem Execute JavaModCalc

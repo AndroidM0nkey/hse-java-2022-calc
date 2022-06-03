@@ -8,6 +8,10 @@ import java.util.*;
 
 import org.operator.Operator;
 import org.reflections.*;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
+
 
 public class ExpressionParser {
     //todo template for codegen
@@ -20,8 +24,9 @@ public class ExpressionParser {
         Set<Class<? extends Operator>> subTypes =
                 reflections.getSubTypesOf(Operator.class);
 
+
         //reflexions for user lib
-        Reflections reflectionsU = new Reflections("org.mathlib");
+        Reflections reflectionsU = new Reflections(new ConfigurationBuilder().forPackages("org.mathlib"));
         Set<Class<? extends Operator>> subTypesU =
                 reflectionsU.getSubTypesOf(Operator.class);
 
@@ -31,7 +36,7 @@ public class ExpressionParser {
         while(itr.hasNext()){
             Class<? extends Operator> cl = itr.next();
             Class<?> c = Class.forName(cl.getName());
-            Constructor<?> cons = c.getConstructor(null);
+            Constructor<?> cons = c.getConstructor();
             Object object = cons.newInstance();
             Operator op = (Operator)object;
             operationsMap.put(op.name, op);
@@ -42,7 +47,7 @@ public class ExpressionParser {
         while(itrU.hasNext()) {
             Class<? extends Operator> cl = itrU.next();
             Class<?> c = Class.forName(cl.getName());
-            Constructor<?> cons = c.getConstructor(null);
+            Constructor<?> cons = c.getConstructor();
             Object object = cons.newInstance();
             Operator op = (Operator) object;
             operationsMap.put(op.name, op);
