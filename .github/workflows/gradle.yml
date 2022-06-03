@@ -34,4 +34,4 @@ jobs:
         gradle-version: 7.4
         arguments: build
     - name: Test with Gradle
-      run: gradle test
+      run: gradle test --tests "ExpressionParserTest"
