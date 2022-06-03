@@ -1,5 +1,17 @@
 plugins {
-    id 'java'
+    id 'application'
+}
+
+application {
+    mainClassName = 'org.example.Main'
+}
+
+apply plugin: 'java'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.example.Main'
+    }
 }
 
 group 'org.example'
@@ -10,8 +22,11 @@ repositories {
 }
 
 dependencies {
+    implementation files('libs/Operator.jar')
+    implementation files('libs/Mathlib.jar')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.reflections:reflections:0.9.5'
 }
 
 test {

@@ -3,6 +3,7 @@ import java.math.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.operator.Operator;
 public class Solver {
     public BigInteger solve (String inputString) {
 
@@ -18,8 +19,13 @@ public class Solver {
             BigInteger state = values[0];
             for (int i = 0; i < operators.size(); i++) {
                 Operator op = (Operator) operators.get(i);
-                state = op.apply(state, values[i+1]);
-                state = state.mod(mod);
+                try {
+                    state = op.apply(state, values[i + 1]);
+                    state = state.mod(mod);
+                } catch (Exception e) {
+                    System.out.println("Arithmetics broke");
+                    return null;
+                }
             }
 
             return state;
