@@ -1,20 +1,53 @@
 package org.example;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import org.operator.Operator;
+import org.reflections.*;
 
 public class ExpressionParser {
     //todo template for codegen
-    private HashMap<String, Operator> createOperationsMap(){
+
+    private HashMap<String, Operator> createOperationsMap() throws InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
         HashMap<String, Operator> operationsMap = new HashMap<String, Operator>();
-        operationsMap.put("+", new Addition());
-        operationsMap.put("-", new Substraction());
-        operationsMap.put("*", new Multiplication());
-        operationsMap.put("/", new Division());
-        operationsMap.put("^", new Pow());
+
+        //reflexions for main lib
+        Reflections reflections = new Reflections("org.example");
+        Set<Class<? extends Operator>> subTypes =
+                reflections.getSubTypesOf(Operator.class);
+
+        //reflexions for user lib
+        Reflections reflectionsU = new Reflections("org.mathlib");
+        Set<Class<? extends Operator>> subTypesU =
+                reflectionsU.getSubTypesOf(Operator.class);
+
+
+        Iterator<Class<? extends Operator>> itr = subTypes.iterator();
+
+        while(itr.hasNext()){
+            Class<? extends Operator> cl = itr.next();
+            Class<?> c = Class.forName(cl.getName());
+            Constructor<?> cons = c.getConstructor(null);
+            Object object = cons.newInstance();
+            Operator op = (Operator)object;
+            operationsMap.put(op.name, op);
+        }
+
+        Iterator<Class<? extends Operator>> itrU = subTypesU.iterator();
+
+        while(itrU.hasNext()) {
+            Class<? extends Operator> cl = itrU.next();
+            Class<?> c = Class.forName(cl.getName());
+            Constructor<?> cons = c.getConstructor(null);
+            Object object = cons.newInstance();
+            Operator op = (Operator) object;
+            operationsMap.put(op.name, op);
+        }
+
         return operationsMap;
     }
 
@@ -31,10 +64,12 @@ public class ExpressionParser {
         }
 
         if (unparsed) {
+            System.out.println("Wrong first 2 characters format");
             return new Expression(unparsed); //todo make custom exception
         }
 
         if (args.length % 2 != 1 || args.length <= 2 || !args[1].equals("|")) {
+            System.out.println("Wrong first 2 characters format");
             unparsed = true;
         }
 
@@ -48,10 +83,16 @@ public class ExpressionParser {
         }
 
         if (unparsed) {
+            System.out.println("Cant parse numbers");
             return new Expression(unparsed); //todo make custom exception
         }
 
-        HashMap<String, Operator> operationsMap = createOperationsMap();
+        HashMap<String, Operator> operationsMap = null;
+        try {
+            operationsMap = createOperationsMap();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         ArrayList<Object> operators = new ArrayList<Object>();
 
         try {
@@ -68,6 +109,7 @@ public class ExpressionParser {
         }
 
         if (unparsed) {
+            System.out.println("Cant parse operators");
             return new Expression(unparsed); //todo make custom exception
         }
 

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Operator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Operator/build/libs/Operator-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
